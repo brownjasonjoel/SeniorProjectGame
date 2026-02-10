@@ -2998,7 +2998,7 @@ GameObject:
   - component: {fileID: 1168637864}
   - component: {fileID: 1168637863}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: GameArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3046,7 +3046,7 @@ GameObject:
   - component: {fileID: 1275800141}
   - component: {fileID: 1275800140}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
