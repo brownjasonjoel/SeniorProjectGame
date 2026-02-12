@@ -3,9 +3,10 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-
+    [Header ("Components")]
     public Rigidbody2D rb;
     public PlayerInput playerInput;
+    public Animator anim;
 
     [Header ("Movement Variables")]
     public float speed;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
     {
         
         Flip();
+        HandleAnimations();
     }
 
     private void FixedUpdate()
@@ -93,6 +95,17 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position,groundCheckRadius,groundLayer);
 
+    }
+
+    void HandleAnimations()
+    {
+        anim.SetBool("isJumping", rb.linearVelocity.y > 0.1f);
+        anim.SetBool("isGrounded", isGrounded);
+
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
+
+        anim.SetBool("isIdle", Mathf.Abs(moveInput.x) < 0.1f && isGrounded);
+        anim.SetBool("isWalking", Mathf.Abs(moveInput.x) > 0.1f && isGrounded);
     }
 
 
