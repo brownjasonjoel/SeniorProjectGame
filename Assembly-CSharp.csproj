@@ -61,15 +61,17 @@
     <Analyzer Include="C:\unity\6000.3.6f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PlayerIdleState.cs" />
-    <Compile Include="Assets\Scripts\PlayerSlideState.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\PlayerCrouchState.cs" />
-    <Compile Include="Assets\Scripts\PlayerJumpState.cs" />
-    <Compile Include="Assets\Scripts\PlayerMoveState.cs" />
-    <Compile Include="Assets\Scripts\PlayerState.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerJumpState.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerIdleState.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMoveState.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Sprites\Traing dummy\Contact.txt" />
+    <None Include="Assets\Sprites\Traing dummy\License.txt" />
     <None Include="Assets\Sprites\Terrain\LegacyFantasy\Pixel Clouds\Pixel Clouds\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

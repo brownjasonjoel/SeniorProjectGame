@@ -1,0 +1,42 @@
+using UnityEngine;
+
+public class PlayerIdleState : PlayerState
+{
+    public PlayerIdleState(Player player) : base(player) { }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        anim.SetBool("isIdle", true);
+        player.rb.linearVelocity = new Vector2(0, player.rb.linearVelocity.y);
+    }
+
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (JumpPressed)
+        {
+            JumpPressed = false;
+            player.ChangeState(player.jumpState);
+        }
+        else if (Mathf.Abs(MoveInput.x) > 0.1f)
+        {
+            player.ChangeState(player.moveState);
+        }
+        
+    }
+
+
+
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        anim.SetBool("isIdle", false);
+    }
+
+}
