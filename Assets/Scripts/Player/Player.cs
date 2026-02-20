@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevelPhysics2D;
 using UnityEngine.XR;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour
     public PlayerIdleState idleState;
     public PlayerJumpState jumpState;
     public PlayerMoveState moveState;
+    public PlayerCrouchState crouchState;
+    public PlayerSlideState slideState;
     public PlayerAttackState attackState;
 
     [Header("Core Components")]
@@ -46,14 +49,17 @@ public class Player : MonoBehaviour
     public LayerMask groundLayer;
     public bool isGrounded;
 
+    [Header("Crouch Check")]
+    public Transform headCheck; 
+    public float headCheckRadius = 0.2f;
+
     [Header("Slide Variables")]
     public float slideDuration = .6f;
     private bool isSliding;
-    private float slideTimer;
+   
     public float slideSpeed = 12;
     public float slideStopDuration = .15f;
-    private float slideStopTimer;
-    private bool slideInputLock;
+   
 
     public float slideHeight;
     public Vector2 slideOffset;
@@ -68,6 +74,8 @@ public class Player : MonoBehaviour
         idleState = new PlayerIdleState(this);
         jumpState = new PlayerJumpState(this);
         moveState = new PlayerMoveState(this);
+        crouchState = new PlayerCrouchState(this);
+        slideState = new PlayerSlideState(this);
         attackState = new PlayerAttackState(this);
         
        DontDestroyOnLoad(this.gameObject);
@@ -83,7 +91,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         currentState.Update();
-
+        
        
 
         if(!isSliding)
@@ -120,6 +128,12 @@ public class Player : MonoBehaviour
                 playerCollider.offset = normalOffset;
             }
 
+    public void SetColliderSlide()
+    {
+        playerCollider.size = new Vector2(playerCollider.size.x, slideHeight);
+        playerCollider.offset = slideOffset;
+    }
+
     public void ApplyVariableGravity()
     {
         if(rb.linearVelocity.y < -0.1f) //falling
@@ -142,48 +156,35 @@ public class Player : MonoBehaviour
 
     }
 
+    public bool CheckForCieling()
+    {
+       return Physics2D.OverlapCircle(headCheck.position, headCheckRadius, groundLayer);
+
+    }
+
+    void TryStandUp()
+    {
+
+        if (isSliding)
+        {
+            anim.SetBool("isCrouching", false);
+            return;
+        }
+
+
+        bool shouldCrouch = moveInput.y <= -0.1f;
+
+
+    }
+
     void HandleAnimations()
     {
         anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("yVelocity", rb.linearVelocity.y);
-        anim.SetBool("isSliding", isSliding);
+        
     }
 
-    void HandleSlide ()
-    {
-        if(isSliding)
-        {
-            slideTimer -= Time.deltaTime;
-            rb.linearVelocity = new Vector2(slideSpeed * facingDirection, rb.linearVelocity.y);
-
-            if(slideTimer <= 0)
-            {
-                isSliding = false;
-                slideStopTimer = slideStopDuration;
-            }
-
-        }
-
-        if(slideStopTimer > 0)
-        {
-            slideStopTimer -= Time.deltaTime;
-            rb. linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        }
-
-
-
-        if (isGrounded && runPressed && moveInput.y < -0.1f && !isSliding && !slideInputLock)
-        { 
-            isSliding = true;
-            slideInputLock = true;
-            slideTimer = slideDuration;        
-        }
-
-        if(slideStopTimer < 0 && moveInput.y >= -0.1f)
-        {
-            slideInputLock = false;
-        }
-    }
+   
 
     void Flip()
     {
@@ -238,6 +239,9 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position,groundCheckRadius);
-              
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(headCheck.position, headCheckRadius);
+
     }
 }
