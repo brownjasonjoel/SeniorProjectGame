@@ -30,7 +30,7 @@ public class PlayerIdleState : PlayerState
         {
             player.ChangeState(player.moveState);
         }
-        else if(MoveInput.x < -0.1f)
+        else if(MoveInput.y < -0.1f)
         {
             player.ChangeState(player.crouchState);
         }

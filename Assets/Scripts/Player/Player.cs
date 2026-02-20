@@ -162,21 +162,6 @@ public class Player : MonoBehaviour
 
     }
 
-    void TryStandUp()
-    {
-
-        if (isSliding)
-        {
-            anim.SetBool("isCrouching", false);
-            return;
-        }
-
-
-        bool shouldCrouch = moveInput.y <= -0.1f;
-
-
-    }
-
     void HandleAnimations()
     {
         anim.SetBool("isGrounded", isGrounded);

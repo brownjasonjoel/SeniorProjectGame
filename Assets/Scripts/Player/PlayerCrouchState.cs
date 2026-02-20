@@ -5,8 +5,6 @@ public class PlayerCrouchState : PlayerState
     public PlayerCrouchState(Player player) : base(player) { }
 
 
-
-
     public override void Enter()
     {
         base.Enter();
@@ -41,7 +39,7 @@ public class PlayerCrouchState : PlayerState
         {
             player.rb.linearVelocity = new Vector2(0, player.rb.linearVelocity.y);
         }
-        }
+    }
 
 
 
