@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         slideState = new PlayerSlideState(this);
         attackState = new PlayerAttackState(this);
         
-       DontDestroyOnLoad(this.gameObject);
+       
     }
 
     private void Start()
