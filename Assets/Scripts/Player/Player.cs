@@ -77,8 +77,6 @@ public class Player : MonoBehaviour
         crouchState = new PlayerCrouchState(this);
         slideState = new PlayerSlideState(this);
         attackState = new PlayerAttackState(this);
-        
-       
     }
 
     private void Start()
